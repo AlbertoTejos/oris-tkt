@@ -99,11 +99,7 @@ public class Conexion {
         }
     }
     
-    public static void Main(String args[]){
-        
-        
-    }
-    
+   
     
 
 

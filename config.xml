@@ -1,8 +1,8 @@
 <?xml version = "1.0" encoding="Windows-1252" standalone="yes"?>
 <config>
-	<servidor>200.27.55.220</servidor>
-	<basededatos>Oris</basededatos>
+	<servidor>localhost</servidor>
+	<basededatos>oris_tc</basededatos>
 	<puerto>1433</puerto>
-	<usuario>oris</usuario>
-	<contrasena>tsyacom</contrasena>
+	<usuario>sa</usuario>
+	<contrasena>administrador</contrasena>
 </config>

@@ -6,9 +6,7 @@ import oris.view.models.ComboModelLineaAerea;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,6 +52,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error al buscar las lineas aereas.");
                 }
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         list_lineaerea.setEnabled(true);
                     }
@@ -80,7 +79,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     public void ajutarTabla() {
         table_ticket.setDefaultRenderer(Object.class, new TableCellRenderer() {
-            private DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
+            private final DefaultTableCellRenderer DEFAULT_RENDERER = new DefaultTableCellRenderer();
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -251,9 +250,10 @@ public class BuscarRegistro extends javax.swing.JPanel {
         });
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel5.setText("Directorio archivos excel");
+        jLabel5.setText("Directorio reportes excel");
 
-        jButton1.setText("Reporte detallado");
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reporte_final.png"))); // NOI18N
+        jButton1.setActionCommand("");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -276,15 +276,15 @@ public class BuscarRegistro extends javax.swing.JPanel {
                                 .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnGuardar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 256, Short.MAX_VALUE))
+                                .addGap(0, 321, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1)
-                                .addGap(14, 14, 14)))
-                        .addComponent(btn_eliminar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_eliminar)))
                         .addGap(18, 18, 18)
                         .addComponent(btn_nuevo)
                         .addGap(18, 18, 18)
@@ -345,13 +345,12 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addComponent(btnExaminarExcel)
                             .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_nuevo)
-                                .addComponent(btn_eliminar)
-                                .addComponent(btnExcel)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_nuevo)
+                            .addComponent(btn_eliminar)
+                            .addComponent(btnExcel)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(7, 7, 7)
                         .addComponent(btnGuardar)))
                 .addContainerGap())
         );
@@ -410,6 +409,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                     System.out.println(ex);
                 }
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         progress_bar.setVisible(false);
                     }
@@ -522,26 +522,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_list_lineaereaActionPerformed
 
-    private void btnExaminarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarExcelActionPerformed
-        this.txtExaminar.setText(statics.definirDirectorio(this));
-
-    }//GEN-LAST:event_btnExaminarExcelActionPerformed
-
-    private void txtExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExaminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExaminarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (this.txtExaminar.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos.");
-            return;
-        }
-
-        dir.setRuta_excel(this.txtExaminar.getText());
-
-        dir.guardarCambios();
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         final int totalFilas = this.table_ticket.getRowCount();
@@ -559,7 +539,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         hasta = hasta.replace("/", "-");
                         String codigoLineaArea = comboLineasModel.getCodigoLinea(list_lineaerea.getSelectedIndex());
 
-                        String file = "C:\\Users\\Felipe\\Desktop\\Proyectos Alberto Tejos\\oris-tkt\\src\\oris\\reports\\report1.jasper";
+                        String file = "C:\\Users\\Alberto\\Desktop\\Proyectos\\oris-tkt\\src\\oris\\reports\\AnalisisVentas.jasper";
                         System.out.println("Cargando archivo desde: " + file);
                         JasperReport jr = null;
                         try {
@@ -570,11 +550,9 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         
                         //Parametros
                         Map parametro = new HashMap();
-//                        parametro.put("fecha_desde", '"'+desde+'"');
-//                        parametro.put("fecha_hasta", '"'+hasta+'"');
-                        parametro.put("codigo_linea_aerea", '"'+codigoLineaArea+'"');
-//                        System.out.println("desde"+desde);
-//                        System.out.println("hasta"+hasta);
+                        parametro.put("fecha_desde", desde);
+                        parametro.put("fecha_hasta", hasta);
+                        parametro.put("codigo", codigoLineaArea);
                         System.out.println(parametro);
                         
                         
@@ -591,11 +569,12 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         System.out.println(ex.getMessage());
                     }
 
-//                    SwingUtilities.invokeLater(new Runnable() {
-//                    public void run() {
-//                        progress_bar.setVisible(false);
-//                    }
-//                }); 
+                    SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress_bar.setVisible(false);
+                    }
+                }); 
                 }
             }).start();
         } else {
@@ -603,6 +582,25 @@ public class BuscarRegistro extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnExaminarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarExcelActionPerformed
+        this.txtExaminar.setText(statics.definirDirectorio(this));
+    }//GEN-LAST:event_btnExaminarExcelActionPerformed
+
+    private void txtExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExaminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtExaminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (this.txtExaminar.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos.");
+            return;
+        }
+
+        dir.setRuta_excel(this.txtExaminar.getText());
+
+        dir.guardarCambios();
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExaminarExcel;
