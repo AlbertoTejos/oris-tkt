@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="096031ea-c625-4092-b7a6-a43e66786f1a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="fecha_desde" class="java.lang.String"/>
+	<parameter name="fecha_hasta" class="java.lang.String"/>
+	<parameter name="codigo_linea_aerea" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[EXEC Reportes_Oris_TKT $P{fecha_desde}, $P{fecha_hasta}, $P{codigo_linea_aerea}]]>
+	</queryString>
+	<field name="cod_linea_aerea" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="moneda" class="java.lang.String"/>
+	<field name="pnr" class="java.lang.String"/>
+	<field name="ticket" class="java.lang.String"/>
+	<field name="fecha_emision" class="java.lang.String"/>
+	<field name="valor_neto" class="java.math.BigDecimal"/>
+	<field name="valor_tasas" class="java.math.BigDecimal"/>
+	<field name="valor_final" class="java.math.BigDecimal"/>
+	<field name="comision" class="java.math.BigDecimal"/>
+	<field name="valor_comision" class="java.math.BigDecimal"/>
+	<field name="valor_a_pagar" class="java.math.BigDecimal"/>
+	<group name="tipo">
+		<groupExpression><![CDATA[$F{tipo}]]></groupExpression>
+		<groupHeader>
+			<band height="37">
+				<frame>
+					<reportElement uuid="96b396c8-3d02-433a-ad08-84ed9cdd4de6" mode="Opaque" x="-21" y="7" width="843" height="24" forecolor="#B89F7D" backcolor="#F2EBDF"/>
+					<rectangle>
+						<reportElement uuid="c2324cf7-739f-4da2-800d-b165bffefa07" mode="Opaque" x="21" y="0" width="36" height="24" backcolor="#736343"/>
+						<graphicElement>
+							<pen lineWidth="0.0"/>
+						</graphicElement>
+					</rectangle>
+					<textField>
+						<reportElement uuid="ac6946f8-1207-4d40-8998-9045d62bb743" style="SubTitle" x="68" y="0" width="755" height="24" forecolor="#736343"/>
+						<textElement>
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="moneda">
+		<groupExpression><![CDATA[$F{moneda}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement uuid="021a660e-b96b-434b-b593-c3e8b792e3e6" style="SubTitle" x="0" y="4" width="802" height="20"/>
+					<textElement>
+						<font size="16" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement uuid="d4a7cd56-d181-42b5-9d46-8301e643d382" x="0" y="0" width="112" height="116"/>
+			</image>
+			<staticText>
+				<reportElement uuid="1e5f890e-f02b-48cb-a3ab-df0329fba94b" style="Title" x="270" y="0" width="263" height="62"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top">
+					<font isBold="false" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Título ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a5cf1e74-c8a5-4174-9050-64b8d2ebfd26" style="SubTitle" x="303" y="62" width="196" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Subtítulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0200acb4-57f9-4c99-a66b-f600ff51f031" x="198" y="84" width="383" height="42"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Texto]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement uuid="6c0e0d34-4322-4be3-819b-f1a273f0e63e" positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="9ffd8a77-4b9a-4701-b30c-feb5321f7db9" style="Column header" x="0" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[código línea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d5148408-187c-4cb9-886c-862cda175210" style="Column header" x="80" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[pnr]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2bba4ca0-eb8a-41c2-99c6-bc64bf9d4998" style="Column header" x="160" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[n° ticket]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d1db4dbf-7c82-492d-82cd-28a2c073343d" style="Column header" x="240" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[emisión]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="12505445-2323-4aeb-a634-b2d165503f63" style="Column header" x="320" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[valor neto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb0076d7-3909-496d-9772-be21fbe96a0c" style="Column header" x="400" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[valor tasas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8a9eb73d-eff9-41e5-b3bb-54134fed1553" style="Column header" x="480" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[valor final]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71aaedea-bff0-494d-9ad2-71d8fa5aaaba" style="Column header" x="560" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[% comisión]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b8d63250-64dd-476b-a9d7-cbba24b6e518" style="Column header" x="640" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[comisión]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="38a606ad-50df-4f5c-af67-ef4a5440d8a8" style="Column header" x="720" y="0" width="80" height="15" forecolor="#736343"/>
+				<textElement/>
+				<text><![CDATA[pagar]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement uuid="b37e4bb9-c1a1-4433-b7b7-33b3cfed11ed" style="Row" mode="Opaque" x="0" y="0" width="802" height="15"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="816835ab-6377-484f-b3b1-11af9e1a4e19" style="Detail" x="0" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{cod_linea_aerea}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="128fb2d9-744a-4ca8-b1d7-5bacf2a6f633" style="Detail" x="80" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{pnr}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="d2a606ef-2daf-416c-b33f-ee4eabc78d85" style="Detail" x="160" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{ticket}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="219c7e48-2cfa-4450-a47e-9edaccb5135b" style="Detail" x="240" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{fecha_emision}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="c4f314b8-4450-45ab-92fa-1d7bf51ca8dc" style="Detail" x="320" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valor_neto}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="3dfb3f22-dfce-4148-b08a-0427422d29ec" style="Detail" x="400" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valor_tasas}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="848fdd59-8b9b-473c-b3da-98c789ed7acb" style="Detail" x="480" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valor_final}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="1ba14b43-dde3-4f99-ac27-994ab72183fd" style="Detail" x="560" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{comision}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="b7142895-1e03-4abc-9e0c-d3e9e2a81e09" style="Detail" x="640" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valor_comision}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="231b78d7-bb3b-409c-85d4-bdb128a4655e" style="Detail" x="720" y="0" width="80" height="15"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{valor_a_pagar}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement uuid="e1cdb532-359f-423a-8bf9-8e4c73aad391" positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="c76e40a9-7162-482a-bdb6-c1b3217df4ab" mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="576fbce9-8248-4d8f-8fe2-b31b613b0ab9" style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="e6dd8eaf-c686-46c6-9087-efa2716cedff" style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="b97c77ca-a565-4b22-b4f8-70f19179a527" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

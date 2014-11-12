@@ -1,15 +1,17 @@
 
 package oris.model.db;
 
+import java.sql.SQLException;
+
 
 public class Conexion {
 
     private java.sql.Connection con = null;
-    private String serverName;
-    private String portNumber;
-    private String databaseName;
-    private String userName ;
-    private String password ;
+    private final String serverName;
+    //private final String portNumber;
+    private final String databaseName;
+    private final String userName ;
+    private final String password ;
     private Parametros par;
     // Indica al controlador que debe utilizar un cursor de servidor, lo que permite más de una instrucción activa en una conexión.
     private final String selectMethod = "cursor";
@@ -17,7 +19,7 @@ public class Conexion {
     public Conexion() {
         par = Parametros.getInstance();
         this.serverName = par.getServidor();
-        this.portNumber = par.getPuerto();
+        //this.portNumber = par.getPuerto();
         this.databaseName = par.getBaseDeDatos();
         this.userName = par.getUsuario();
         this.password = par.getContrasena();
@@ -29,14 +31,13 @@ public class Conexion {
         
     }
 
-    protected java.sql.Connection getConnection() {
+    public java.sql.Connection getConnection() {
         try {
            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = java.sql.DriverManager.getConnection(getConnectionUrl(), userName, password);
             if (con != null) {
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println("Error de seguimiento en getConnection() : " + e.getMessage());
         }
         return con;
@@ -51,7 +52,7 @@ public class Conexion {
             if (con != null) {
                 return true;
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             return false;
         }
         return false;
@@ -83,19 +84,18 @@ public class Conexion {
                 System.out.println("Error: No hay ninguna conexión activa");
             }
         } catch (Exception e) {
-            e.printStackTrace();
         }
         dm = null;
     }
 
-    private void closeConnection() {
+    public void closeConnection() {
         try {
             if (con != null) {
                 con.close();
             }
             con = null;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
     
