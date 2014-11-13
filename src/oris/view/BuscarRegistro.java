@@ -253,7 +253,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
         jLabel5.setText("Directorio reportes excel");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reporte_final.png"))); // NOI18N
-        jButton1.setActionCommand("");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -345,11 +344,12 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addComponent(btnExaminarExcel)
                             .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btn_nuevo)
-                            .addComponent(btn_eliminar)
-                            .addComponent(btnExcel)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_nuevo)
+                                .addComponent(btn_eliminar)
+                                .addComponent(btnExcel)))
                         .addGap(7, 7, 7)
                         .addComponent(btnGuardar)))
                 .addContainerGap())
