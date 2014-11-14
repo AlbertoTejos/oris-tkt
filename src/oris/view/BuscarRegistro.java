@@ -39,7 +39,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
     public BuscarRegistro() {
         initComponents();
         dir = Directorio.getInstance();
-
+        this.btnExcel.setEnabled(false);
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {

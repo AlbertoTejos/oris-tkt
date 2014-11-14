@@ -51,6 +51,7 @@ public class Inicio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         panelPrincipal.setLayout(new java.awt.CardLayout());
 
         menuOris.setText("Opciones");
@@ -64,7 +65,7 @@ public class Inicio extends javax.swing.JFrame {
         });
         menuOris.add(menuItemEditarRegistro);
 
-        menuItemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/Log Out (1).png"))); // NOI18N
+        menuItemSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/salir.png"))); // NOI18N
         menuItemSalir.setText("Salir");
         menuItemSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
