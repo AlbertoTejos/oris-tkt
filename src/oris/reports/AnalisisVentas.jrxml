@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnalisisVentas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="096031ea-c625-4092-b7a6-a43e66786f1a">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="106"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="40"/>
+	<property name="ireport.y" value="254"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -17,7 +17,7 @@
 	<parameter name="fecha_hasta" class="java.lang.String"/>
 	<parameter name="codigo" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[EXEC SP_REPORTES_TICKETS $P{fecha_desde}, $P{fecha_hasta}, '045']]>
+		<![CDATA[EXEC SP_REPORTES_TICKETS $P{fecha_desde}, $P{fecha_hasta}, $P{codigo}]]>
 	</queryString>
 	<field name="cod_linea_aerea" class="java.lang.String"/>
 	<field name="tipo" class="java.lang.String"/>
@@ -30,8 +30,8 @@
 	<field name="valor_final" class="java.math.BigDecimal"/>
 	<field name="comision" class="java.math.BigDecimal"/>
 	<field name="valor_comision" class="java.math.BigDecimal"/>
-	<field name="valor_a_pagar" class="java.math.BigDecimal"/>
-	<field name="valor_total" class="java.math.BigDecimal"/>
+	<field name="a_pagar" class="java.math.BigDecimal"/>
+	<field name="total_valor_final" class="java.math.BigDecimal"/>
 	<field name="iva_comision" class="java.lang.String"/>
 	<group name="monedaa">
 		<groupExpression><![CDATA[$F{moneda}]]></groupExpression>
@@ -241,7 +241,7 @@
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="231b78d7-bb3b-409c-85d4-bdb128a4655e" style="Detail" x="720" y="0" width="80" height="15"/>
 					<textElement textAlignment="Right"/>
-					<textFieldExpression><![CDATA[$F{valor_a_pagar}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{a_pagar}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="1606f9c0-5ee1-4e54-9385-5482dc9c5eae" x="656" y="0" width="64" height="15"/>
@@ -254,7 +254,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="6" splitType="Stretch">
+		<band height="11" splitType="Stretch">
 			<line>
 				<reportElement uuid="e1cdb532-359f-423a-8bf9-8e4c73aad391" positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
 				<graphicElement>
@@ -281,30 +281,60 @@
 					</textElement>
 					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement uuid="ac6946f8-1207-4d40-8998-9045d62bb743" style="SubTitle" x="80" y="4" width="93" height="17" forecolor="#736343"/>
-					<textElement>
-						<font size="14" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement uuid="27ba9f69-db1b-40a1-b72f-c38c870751d8" x="37" y="4" width="43" height="17" isPrintInFirstWholeBand="true" forecolor="#736343"/>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" size="14" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Total]]></text>
-				</staticText>
-				<textField>
-					<reportElement uuid="41f7cdde-49ae-4691-865b-0a8bc460646d" x="447" y="1" width="86" height="20" forecolor="#736343"/>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Arial" size="14" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{valor_total}]]></textFieldExpression>
-				</textField>
 			</frame>
 		</band>
 	</pageFooter>
+	<lastPageFooter>
+		<band height="346">
+			<textField>
+				<reportElement uuid="41f7cdde-49ae-4691-865b-0a8bc460646d" x="452" y="0" width="54" height="17" forecolor="#736343"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_valor_final}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="635d01aa-e524-44de-859d-76c469d3758f" x="36" y="17" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MONEDA USD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d5e3e33f-b7a6-41ee-97eb-e3868770633a" x="47" y="51" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[T.CASH:EMD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c7769035-8746-46d7-8c4a-9e417bf4d64d" x="47" y="85" width="159" height="20"/>
+				<textElement/>
+				<text><![CDATA[T.CASH:ELECTRONIC TICKET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a740aea4-87fe-4996-94a1-68fad572d16c" x="36" y="145" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[MONEDA CLP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="77738108-2171-4ab6-8449-59b893a54bda" x="47" y="179" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[T.CASH:EMD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6f78fde5-e992-4b92-98f9-7791489d89e6" x="47" y="210" width="151" height="20"/>
+				<textElement/>
+				<text><![CDATA[T.CASH:ELECTRONIC TICKET]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb82192c-4a68-4513-8335-da83d57115ab" x="47" y="115" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[A CASH:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c99a5864-730c-47ee-a27b-311fbb7e4a53" x="47" y="245" width="100" height="20"/>
+				<textElement/>
+				<text><![CDATA[A CASH: ]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
 	<summary>
 		<band splitType="Stretch"/>
 	</summary>

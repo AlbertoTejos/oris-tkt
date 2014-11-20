@@ -25,21 +25,18 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
-import oris.directorio.Directorio;
 import oris.model.db.Conexion;
 import oris.model.dto.Ticket;
-import oris.statics;
 
 public class BuscarRegistro extends javax.swing.JPanel {
 
     TableModelTicket tableTicketModel;
     ComboModelLineaAerea comboLineasModel;
-    Directorio dir = null;
 
     public BuscarRegistro() {
         initComponents();
-        dir = Directorio.getInstance();
         this.btnExcel.setEnabled(false);
+        this.jButton1.setEnabled(false);
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {
@@ -70,7 +67,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
         this.progress_bar.setVisible(false);
         this.txt_fechadesde.setDate(fecha);
         this.txt_fechahasta.setDate(fecha);
-        this.txtExaminar.setText(dir.getRuta_excel());
 
         ajutarTabla();
         table_ticket.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -118,7 +114,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
         table_ticket.getColumn(table_ticket.getColumnName(13)).setPreferredWidth(50);
         table_ticket.getColumn(table_ticket.getColumnName(14)).setPreferredWidth(80);
         table_ticket.getColumn(table_ticket.getColumnName(15)).setPreferredWidth(30);
-
+        table_ticket.getColumn(table_ticket.getColumnName(16)).setPreferredWidth(30);
     }
 
     public void detalleTicket(int row) {
@@ -150,10 +146,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
         progress_bar = new javax.swing.JProgressBar();
         txt_nfile = new javax.swing.JTextField();
         btnExcel = new javax.swing.JButton();
-        btnExaminarExcel = new javax.swing.JButton();
-        txtExaminar = new javax.swing.JTextField();
-        btnGuardar = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search-icon.png"))); // NOI18N
@@ -228,30 +220,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
             }
         });
 
-        btnExaminarExcel.setText("Examinar...");
-        btnExaminarExcel.setName("btnExaminarExcel"); // NOI18N
-        btnExaminarExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExaminarExcelActionPerformed(evt);
-            }
-        });
-
-        txtExaminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtExaminarActionPerformed(evt);
-            }
-        });
-
-        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/22.png"))); // NOI18N
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel5.setText("Directorio reportes excel");
-
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reporte_final.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -268,22 +236,11 @@ public class BuscarRegistro extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnExaminarExcel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnGuardar)
-                                .addGap(0, 321, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1)
-                                .addGap(18, 18, 18)
-                                .addComponent(btn_eliminar)))
+                        .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_eliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btn_nuevo)
                         .addGap(18, 18, 18)
@@ -304,7 +261,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(list_lineaerea, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_nfile, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
                         .addComponent(btn_buscar))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -335,24 +292,13 @@ public class BuscarRegistro extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnExaminarExcel)
-                            .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_nuevo)
-                                .addComponent(btn_eliminar)
-                                .addComponent(btnExcel)))
-                        .addGap(7, 7, 7)
-                        .addComponent(btnGuardar)))
-                .addContainerGap())
+                    .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_nuevo)
+                        .addComponent(btn_eliminar)
+                        .addComponent(btnExcel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -439,7 +385,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
         final int row = this.table_ticket.getSelectedRow();
         if (row > 0) {
             final Ticket tic = this.tableTicketModel.getTicket(row);
-            int i = JOptionPane.showConfirmDialog(this, "¿Decea eliminar el ticket '" + tic.getTicket() + "'?", "Eliminar Registro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+            int i = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el ticket: " +tic.getTicket() + "?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (i == 0) {
                 this.progress_bar.setVisible(true);
                 new Thread(new Runnable() {
@@ -466,56 +412,56 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
 
-        final int totalFilas = this.table_ticket.getRowCount();
-
-        if (totalFilas > 0) {
-
-            //final String rutaExcel = this.tableTicketModel.getRuta();
-            final String rutaExcel = dir.getRuta_excel();
-
-            final ArrayList<Ticket> tickets = this.tableTicketModel.getArrayTicket(totalFilas);
-            final JTable table = this.table_ticket;
-            int i = JOptionPane.showConfirmDialog(this, "¿Desea exportar a Excel?'", "Excel", JOptionPane.YES_NO_OPTION);
-            if (i == 0) {
-                this.progress_bar.setVisible(true);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-
-                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-
-                            String desde = "01/01/1990";
-                            try {
-                                desde = sdf.format(txt_fechadesde.getDate());
-                                desde = desde.replace("/", "-");
-                            } catch (Exception e) {
-                                desde = "01/01/1990";
-                            }
-
-                            String hasta = "01/01/2020";
-                            try {
-                                hasta = sdf.format(txt_fechahasta.getDate());
-                                hasta = hasta.replace("/", "-");
-                            } catch (Exception e) {
-                                hasta = "01/01/2020";
-                            }
-
-                            tableTicketModel.exportarTicket(table, tickets, rutaExcel, desde, hasta);
-
-                        } catch (IOException ex) {
-                            Logger.getLogger(BuscarRegistro.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                progress_bar.setVisible(false);
-                            }
-                        });
-                    }
-                }).start();
-
-            }
-        }
+//        final int totalFilas = this.table_ticket.getRowCount();
+//
+//        if (totalFilas > 0) {
+//
+//            //final String rutaExcel = this.tableTicketModel.getRuta();
+//            final String rutaExcel = dir.getRutaReportes();
+//
+//            final ArrayList<Ticket> tickets = this.tableTicketModel.getArrayTicket(totalFilas);
+//            final JTable table = this.table_ticket;
+//            int i = JOptionPane.showConfirmDialog(this, "¿Desea exportar a Excel?'", "Excel", JOptionPane.YES_NO_OPTION);
+//            if (i == 0) {
+//                this.progress_bar.setVisible(true);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//
+//                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+//
+//                            String desde = "01/01/1990";
+//                            try {
+//                                desde = sdf.format(txt_fechadesde.getDate());
+//                                desde = desde.replace("/", "-");
+//                            } catch (Exception e) {
+//                                desde = "01/01/1990";
+//                            }
+//
+//                            String hasta = "01/01/2020";
+//                            try {
+//                                hasta = sdf.format(txt_fechahasta.getDate());
+//                                hasta = hasta.replace("/", "-");
+//                            } catch (Exception e) {
+//                                hasta = "01/01/2020";
+//                            }
+//
+//                            tableTicketModel.exportarTicket(table, tickets, rutaExcel, desde, hasta);
+//
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(BuscarRegistro.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                        SwingUtilities.invokeLater(new Runnable() {
+//                            public void run() {
+//                                progress_bar.setVisible(false);
+//                            }
+//                        });
+//                    }
+//                }).start();
+//
+//            }
+//        }
     }//GEN-LAST:event_btnExcelActionPerformed
 
     private void list_lineaereaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_lineaereaActionPerformed
@@ -539,13 +485,15 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         hasta = hasta.replace("/", "-");
                         String codigoLineaArea = comboLineasModel.getCodigoLinea(list_lineaerea.getSelectedIndex());
 
-                        String file = "C:\\Users\\Alberto\\Desktop\\Proyectos\\oris-tkt\\src\\oris\\reports\\AnalisisVentas.jasper";
-                        System.out.println("Cargando archivo desde: " + file);
+                        //String directorioRelativo = System.getProperty("user.dir")+"reportes/AnalisisVentas.jasper";
+                        String directorioFijo = "C:\\Users\\Felipe\\Desktop\\Proyectos Alberto Tejos\\oris-tkt\\src\\oris\\reports\\AnalisisVentas.jasper";
+                        System.out.println("Cargando archivo desde: " + directorioFijo);
                         JasperReport jr = null;
                         try {
-                            jr = (JasperReport) JRLoader.loadObjectFromFile(file);
+                            jr = (JasperReport) JRLoader.loadObjectFromFile(directorioFijo);
                         } catch (JRException jrex) {
-                            System.out.println("Falla al cargar el archivo: "+jrex.getMessage());
+                            System.out.println("Falla al cargar el reporte: "+jrex.getMessage());
+                            JOptionPane.showMessageDialog(null, "Falla al cargar el reporte", "Error de carga", JOptionPane.ERROR_MESSAGE, null);
                         }
                         
                         //Parametros
@@ -583,29 +531,8 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnExaminarExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarExcelActionPerformed
-        this.txtExaminar.setText(statics.definirDirectorio(this));
-    }//GEN-LAST:event_btnExaminarExcelActionPerformed
-
-    private void txtExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExaminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtExaminarActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (this.txtExaminar.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos.");
-            return;
-        }
-
-        dir.setRuta_excel(this.txtExaminar.getText());
-
-        dir.guardarCambios();
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExaminarExcel;
     private javax.swing.JButton btnExcel;
-    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
@@ -614,13 +541,11 @@ public class BuscarRegistro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JComboBox list_lineaerea;
     private javax.swing.JProgressBar progress_bar;
     private javax.swing.JTable table_ticket;
-    private javax.swing.JTextField txtExaminar;
     private com.toedter.calendar.JDateChooser txt_fechadesde;
     private com.toedter.calendar.JDateChooser txt_fechahasta;
     private javax.swing.JTextField txt_nfile;

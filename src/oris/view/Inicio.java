@@ -43,6 +43,7 @@ public class Inicio extends javax.swing.JFrame {
     private void initComponents() {
 
         panelPrincipal = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuOris = new javax.swing.JMenu();
         menuItemEditarRegistro = new javax.swing.JMenuItem();
@@ -54,7 +55,11 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
         panelPrincipal.setLayout(new java.awt.CardLayout());
 
-        menuOris.setText("Opciones");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/oris-avion.jpg"))); // NOI18N
+        panelPrincipal.add(jLabel1, "card2");
+
+        menuOris.setText("Menú");
 
         menuItemEditarRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/database.png"))); // NOI18N
         menuItemEditarRegistro.setText("Registros");
@@ -119,6 +124,7 @@ public class Inicio extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem menuItemEditarRegistro;
     private javax.swing.JMenuItem menuItemSalir;

@@ -23,7 +23,7 @@ public class TableModelTicket extends DefaultTableModel {
     //Constructor
     //COLUMNAS DE LA TABLA ALMACENADAS EN UN ARRAY
     public TableModelTicket() {
-        super(new String[]{"Tipo", "Linea Aerea", "Estado", "Ticket", "Num File", "Fec Emision", "Fec Vuelo", "Ruta", "Nombre Pax", "Moneda", "Valor Neto", "Valor Tasas", "Valor Final", "% Com", "Ticket Reem", "Oris"}, 0);
+        super(new String[]{"Tipo", "Linea Aerea", "Estado", "Ticket", "Num File", "Fec Emision", "Fec Vuelo", "Ruta", "Nombre Pax", "Moneda", "Valor Neto", "Valor Tasas", "Valor Final", "% Com", "Ticket Reem", "Oris", "Gds"}, 0);
     }
 
     //POR CADA TICKET EN EL ARRAYLIST
@@ -56,7 +56,8 @@ public class TableModelTicket extends DefaultTableModel {
                 format.format(tic.getValorFinal()),
                 tic.getComision(),
                 tic.getOldTicket(),
-                oris
+                oris,
+                tic.getGds()
             });
         }
     }

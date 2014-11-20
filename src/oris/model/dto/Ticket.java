@@ -27,8 +27,19 @@ public class Ticket {
     private String tipo;//
     private String estado;//
     private boolean oris;
+    private String gds;
+
+    public String getGds() {
+        return gds;
+    }
+
+    public void setGds(String gds) {
+        this.gds = gds;
+    }
     private ArrayList<Segmento> segmentos;
 
+    
+    
     public boolean isOris() {
         return oris;
     }

@@ -17,7 +17,7 @@ public class TicketDAO extends Conexion{
                                 + "fecha_emision,fecha_anula,fecha_remision,posicion_pasajero,nombre_pasajero,"
                                 + "tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,"
                                 + "valor_tasas,valor_final,comision,forma_pago,tipo"
-                                + ",estado,oris";
+                                + ",estado,oris,gds";
     private String campos_segmentos="ticket,nro_segmento,cod_salida,cod_llegada,nom_salida,nom_llegada,fecha_salida,hora_salida,fecha_llegada,hora_llegada,nro_vuelo,linea_aerea,cod_clase";
     public TicketDAO() {
         super();
@@ -34,7 +34,7 @@ public class TicketDAO extends Conexion{
     
     public ArrayList<Ticket> getTicket(Ticket tic_in) throws SQLException{
         Statement stm = getConnection().createStatement();
-        String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris";
+        String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris,gds";
         String sql = "SELECT "+campos+" FROM TICKET WHERE ticket='"+tic_in.getTicket()+"' "; 
 
         ArrayList<Ticket> tickets = new ArrayList();
@@ -66,6 +66,7 @@ public class TicketDAO extends Conexion{
             }else{
                 tic.setOris(false);
             }
+            tic.setGds(rs.getString("gds"));
             tic.setSegmentos(SegmentoDAO.getInstance().getSegmentoPorId(tic.getTicket()));
             tickets.add(tic);
             
@@ -97,6 +98,7 @@ public class TicketDAO extends Conexion{
                 + "tipo='"+ tic.getTipo()+"',"
                 + "estado='"+ tic.getEstado()+"',"
                 + "oris = '0'" //cada ves que se modifica un ticket el campo oris vuelve a 0
+                + "gds='"+ tic.getGds()+"',"
                 +" WHERE ticket='"+tic.getTicket()+"'");    
     }
     
@@ -132,6 +134,7 @@ public class TicketDAO extends Conexion{
                 + tic.getTipo()+"','"
                 + tic.getEstado()+"',"
                 + "'0'"
+                + tic.getGds()+"','"
                 +")");    
     
         return true;
@@ -140,7 +143,7 @@ public class TicketDAO extends Conexion{
     
     public ArrayList<Ticket> getTickets(String desde , String hasta , String lAerea, String nfile) throws SQLException{
         Statement stm = getConnection().createStatement();
-        String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris";
+        String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris,gds";
         String sql = "SELECT "+campos+" FROM TICKET WHERE fecha_emision BETWEEN convert(datetime, '"+desde+"', 103) AND convert(datetime, '"+hasta+"', 103) "; 
         
         if (!lAerea.equals("")) {
@@ -183,6 +186,7 @@ public class TicketDAO extends Conexion{
             }else{
                 tic.setOris(false);
             }
+            tic.setGds(rs.getString("gds"));
             tic.setSegmentos(SegmentoDAO.getInstance().getSegmentoPorId(tic.getTicket()));
             tickets.add(tic);   
         }
