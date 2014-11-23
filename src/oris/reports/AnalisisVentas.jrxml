@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnalisisVentas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="096031ea-c625-4092-b7a6-a43e66786f1a">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="40"/>
-	<property name="ireport.y" value="254"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -27,12 +27,51 @@
 	<field name="fecha_emision" class="java.lang.String"/>
 	<field name="valor_neto" class="java.math.BigDecimal"/>
 	<field name="valor_tasas" class="java.math.BigDecimal"/>
-	<field name="valor_final" class="java.math.BigDecimal"/>
 	<field name="comision" class="java.math.BigDecimal"/>
 	<field name="valor_comision" class="java.math.BigDecimal"/>
 	<field name="a_pagar" class="java.math.BigDecimal"/>
-	<field name="total_valor_final" class="java.math.BigDecimal"/>
-	<field name="iva_comision" class="java.lang.String"/>
+	<field name="iva_comision" class="java.lang.Double"/>
+	<field name="valor_final" class="java.lang.Double"/>
+	<field name="estado" class="java.lang.String"/>
+	<variable name="valor_neto_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_neto}]]></variableExpression>
+	</variable>
+	<variable name="tasas_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_tasas}]]></variableExpression>
+	</variable>
+	<variable name="comision_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_comision}]]></variableExpression>
+	</variable>
+	<variable name="iva_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva_comision}]]></variableExpression>
+	</variable>
+	<variable name="a_pagar_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{a_pagar}]]></variableExpression>
+	</variable>
+	<variable name="valor_neto_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_neto}]]></variableExpression>
+	</variable>
+	<variable name="valor_comision_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_comision}]]></variableExpression>
+	</variable>
+	<variable name="valor_tasas_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_tasas}]]></variableExpression>
+	</variable>
+	<variable name="valor_iva_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{iva_comision}]]></variableExpression>
+	</variable>
+	<variable name="a_pagar_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{a_pagar}]]></variableExpression>
+	</variable>
+	<variable name="valor_final_sum" class="java.lang.Double" resetType="Group" resetGroup="tipo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_final}]]></variableExpression>
+	</variable>
+	<variable name="valor_final_sum_all" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_final}]]></variableExpression>
+	</variable>
+	<variable name="anulados_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{estado}.equals("ANULADO")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
 	<group name="monedaa">
 		<groupExpression><![CDATA[$F{moneda}]]></groupExpression>
 		<groupHeader>
@@ -56,7 +95,85 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="6"/>
+			<band height="78">
+				<staticText>
+					<reportElement uuid="09891e00-7403-475a-94ae-85debfaa4b5c" x="16" y="11" width="66" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[A.CASH]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="82" y="11" width="74" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="8da3f0b3-d562-451e-b4d3-0431598a322f" x="720" y="11" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{a_pagar_sum_all}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0">
+					<reportElement uuid="49f08c36-8c42-409e-8710-bcd1e22332e2" x="426" y="11" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_final_sum_all}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="e70e2f7f-5c1e-4726-90ff-9b4eea7738ed" x="650" y="11" width="64" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_iva_sum_all}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement uuid="627926d4-1399-4a79-a1f9-f0a28a4dd4b6" x="586" y="11" width="64" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_comision_sum_all}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="028408a4-92c0-4d51-9f3c-e2b208e8cc1b" x="346" y="11" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_tasas_sum_all}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="2bb19dde-c771-47f5-b07b-7c8da05ac4a8" x="266" y="11" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_neto_sum_all}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="92dffae4-ede7-487c-9851-73e3607c479f" x="16" y="31" width="166" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[DESC CANCELED TICKETS]]></text>
+				</staticText>
+				<textField pattern="###0" isBlankWhenNull="false">
+					<reportElement uuid="81bc35f6-7cb9-4898-8fd9-5cce48ba9095" x="720" y="31" width="82" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{anulados_sum}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0">
+					<reportElement uuid="ca265a23-df3d-46f3-9b72-48f9e2d61d0a" x="720" y="51" width="82" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{a_pagar_sum}-$V{anulados_sum}]]></textFieldExpression>
+				</textField>
+			</band>
 		</groupFooter>
 	</group>
 	<group name="tipo">
@@ -72,12 +189,86 @@
 				</textField>
 			</band>
 		</groupHeader>
+		<groupFooter>
+			<band height="82">
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="2bb19dde-c771-47f5-b07b-7c8da05ac4a8" x="266" y="51" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_neto_sum}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="028408a4-92c0-4d51-9f3c-e2b208e8cc1b" x="346" y="51" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{tasas_sum}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement uuid="627926d4-1399-4a79-a1f9-f0a28a4dd4b6" x="586" y="51" width="64" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{comision_sum}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="e70e2f7f-5c1e-4726-90ff-9b4eea7738ed" x="650" y="51" width="64" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{iva_sum}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0" isBlankWhenNull="true">
+					<reportElement uuid="8da3f0b3-d562-451e-b4d3-0431598a322f" x="720" y="51" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{a_pagar_sum}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="1f22d172-9282-45c9-8b71-03bc56490ca9" x="16" y="51" width="54" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[T:CASH :]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="6afadd7f-2f8f-41c9-854e-30dbac8c3dd2" x="70" y="51" width="100" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="b82fa3a8-09fa-4a74-8c58-ab253bd3ed1e" x="16" y="31" width="66" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[MONEDA]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="82" y="31" width="74" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{moneda}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0">
+					<reportElement uuid="49f08c36-8c42-409e-8710-bcd1e22332e2" x="426" y="51" width="80" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_final_sum}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="136" splitType="Stretch">
+		<band height="132" splitType="Stretch">
 			<staticText>
 				<reportElement uuid="1e5f890e-f02b-48cb-a3ab-df0329fba94b" style="Title" x="198" y="0" width="383" height="62"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -148,7 +339,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[valor final]]></text>
+				<text><![CDATA[+ impuestos]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="c4198736-7eed-4975-bc3e-7d986842d7b4" x="506" y="0" width="80" height="16" forecolor="#9B6343"/>
@@ -195,7 +386,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="15" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<frame>
 				<reportElement uuid="b37e4bb9-c1a1-4433-b7b7-33b3cfed11ed" style="Row" mode="Opaque" x="0" y="0" width="802" height="15"/>
 				<textField isStretchWithOverflow="true">
@@ -204,12 +395,12 @@
 					<textFieldExpression><![CDATA[$F{cod_linea_aerea}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="d2a606ef-2daf-416c-b33f-ee4eabc78d85" style="Detail" x="106" y="0" width="80" height="15"/>
+					<reportElement uuid="d2a606ef-2daf-416c-b33f-ee4eabc78d85" style="Detail" x="106" y="0" width="76" height="15"/>
 					<textElement/>
 					<textFieldExpression><![CDATA[$F{ticket}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="219c7e48-2cfa-4450-a47e-9edaccb5135b" style="Detail" x="186" y="0" width="80" height="15"/>
+					<reportElement uuid="219c7e48-2cfa-4450-a47e-9edaccb5135b" style="Detail" x="198" y="0" width="68" height="15"/>
 					<textElement/>
 					<textFieldExpression><![CDATA[$F{fecha_emision}]]></textFieldExpression>
 				</textField>
@@ -228,7 +419,7 @@
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{valor_final}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField isStretchWithOverflow="true" pattern="###0.00">
 					<reportElement uuid="1ba14b43-dde3-4f99-ac27-994ab72183fd" style="Detail" x="506" y="0" width="80" height="15"/>
 					<textElement textAlignment="Right"/>
 					<textFieldExpression><![CDATA[$F{comision}]]></textFieldExpression>
@@ -250,11 +441,16 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$F{iva_comision}]]></textFieldExpression>
 				</textField>
+				<textField>
+					<reportElement uuid="03e3608f-40f2-4e3d-b35a-6b2cca4ca700" style="Detail" x="182" y="0" width="16" height="15"/>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+				</textField>
 			</frame>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="11" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<line>
 				<reportElement uuid="e1cdb532-359f-423a-8bf9-8e4c73aad391" positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
 				<graphicElement>
@@ -285,55 +481,7 @@
 		</band>
 	</pageFooter>
 	<lastPageFooter>
-		<band height="346">
-			<textField>
-				<reportElement uuid="41f7cdde-49ae-4691-865b-0a8bc460646d" x="452" y="0" width="54" height="17" forecolor="#736343"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total_valor_final}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="635d01aa-e524-44de-859d-76c469d3758f" x="36" y="17" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[MONEDA USD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="d5e3e33f-b7a6-41ee-97eb-e3868770633a" x="47" y="51" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[T.CASH:EMD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="c7769035-8746-46d7-8c4a-9e417bf4d64d" x="47" y="85" width="159" height="20"/>
-				<textElement/>
-				<text><![CDATA[T.CASH:ELECTRONIC TICKET]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="a740aea4-87fe-4996-94a1-68fad572d16c" x="36" y="145" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[MONEDA CLP]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="77738108-2171-4ab6-8449-59b893a54bda" x="47" y="179" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[T.CASH:EMD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="6f78fde5-e992-4b92-98f9-7791489d89e6" x="47" y="210" width="151" height="20"/>
-				<textElement/>
-				<text><![CDATA[T.CASH:ELECTRONIC TICKET]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="bb82192c-4a68-4513-8335-da83d57115ab" x="47" y="115" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[A CASH:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="c99a5864-730c-47ee-a27b-311fbb7e4a53" x="47" y="245" width="100" height="20"/>
-				<textElement/>
-				<text><![CDATA[A CASH: ]]></text>
-			</staticText>
-		</band>
+		<band height="23"/>
 	</lastPageFooter>
 	<summary>
 		<band splitType="Stretch"/>
