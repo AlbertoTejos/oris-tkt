@@ -36,7 +36,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
     public BuscarRegistro() {
         initComponents();
         this.btnExcel.setEnabled(false);
-        this.jButton1.setEnabled(false);
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {
@@ -485,12 +484,15 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         hasta = hasta.replace("/", "-");
                         String codigoLineaArea = comboLineasModel.getCodigoLinea(list_lineaerea.getSelectedIndex());
 
-                        //String directorioRelativo = System.getProperty("user.dir")+"reportes/AnalisisVentas.jasper";
-                        String directorioFijo = "C:\\Users\\Felipe\\Desktop\\Proyectos Alberto Tejos\\oris-tkt\\src\\oris\\reports\\AnalisisVentas.jasper";
-                        System.out.println("Cargando archivo desde: " + directorioFijo);
+                        
+                        //String directorioFijo = "C:\\Users\\Alberto\\Desktop\\Proyectos\\oris-tkt\\src\\oris\\reports\\AnalisisVentas.jasper";
+                        
+                        String directorio = System.getProperty("user.dir");
+                        
+                        System.out.println("Cargando archivo desde: " + directorio+"\\cargador-reporte\\AnalisisVentas.jasper");
                         JasperReport jr = null;
                         try {
-                            jr = (JasperReport) JRLoader.loadObjectFromFile(directorioFijo);
+                            jr = (JasperReport) JRLoader.loadObjectFromFile(directorio+"\\cargador-reporte\\AnalisisVentas.jasper");
                         } catch (JRException jrex) {
                             System.out.println("Falla al cargar el reporte: "+jrex.getMessage());
                             JOptionPane.showMessageDialog(null, "Falla al cargar el reporte", "Error de carga", JOptionPane.ERROR_MESSAGE, null);

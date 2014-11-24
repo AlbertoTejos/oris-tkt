@@ -2,6 +2,7 @@
 package oris.model.db;
 
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 
 public class Conexion {
@@ -38,7 +39,7 @@ public class Conexion {
             if (con != null) {
             }
         } catch (ClassNotFoundException | SQLException e) {
-            System.out.println("Error de seguimiento en getConnection() : " + e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return con;
     }
