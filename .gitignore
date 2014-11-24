@@ -8,4 +8,5 @@ nbbuild/
 dist/
 nbdist/
 nbactions.xml
+config.xml
 nb-configuration.xml
