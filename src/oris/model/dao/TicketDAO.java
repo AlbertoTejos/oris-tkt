@@ -141,7 +141,7 @@ public class TicketDAO extends Conexion{
     }
     
     
-    public ArrayList<Ticket> getTickets(String desde , String hasta , String lAerea, String nfile) throws SQLException{
+    public ArrayList<Ticket> getTickets(String desde , String hasta , String lAerea, String nfile, String numeroTicket) throws SQLException{
         Statement stm = getConnection().createStatement();
         String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris,gds";
         String sql = "SELECT "+campos+" FROM TICKET WHERE fecha_emision BETWEEN convert(datetime, '"+desde+"', 103) AND convert(datetime, '"+hasta+"', 103) "; 
@@ -152,6 +152,10 @@ public class TicketDAO extends Conexion{
         
         if (!nfile.equals("")) {
             sql += " AND num_file='"+nfile+"'";
+        }
+        
+        if (!numeroTicket.equals("")) {
+            sql += "AND ticket ='"+numeroTicket+"'";
         }
         
         sql +="ORDER BY fecha_emision DESC ,ticket ASC";
