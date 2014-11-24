@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AnalisisVentas" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="096031ea-c625-4092-b7a6-a43e66786f1a">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="112"/>
 	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -72,6 +72,24 @@
 	<variable name="anulados_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
 		<variableExpression><![CDATA[($F{estado}.equals("ANULADO")) ? $F{a_pagar} : 0]]></variableExpression>
 	</variable>
+	<variable name="acm_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("ACM")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
+	<variable name="adm_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("ADM")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
+	<variable name="reembolso_directo_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("RD")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
+	<variable name="reembolso_indirecto_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("RI")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
+	<variable name="spdr_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("SPDR")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
+	<variable name="spcr_sum" class="java.lang.Double" resetType="Group" resetGroup="monedaa" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo}.equals("SPCR")) ? $F{a_pagar} : 0]]></variableExpression>
+	</variable>
 	<group name="monedaa">
 		<groupExpression><![CDATA[$F{moneda}]]></groupExpression>
 		<groupHeader>
@@ -95,16 +113,16 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="78">
+			<band height="226">
 				<staticText>
-					<reportElement uuid="09891e00-7403-475a-94ae-85debfaa4b5c" x="16" y="11" width="66" height="20"/>
+					<reportElement uuid="09891e00-7403-475a-94ae-85debfaa4b5c" x="0" y="11" width="66" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[A.CASH]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="82" y="11" width="74" height="20"/>
+					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="66" y="11" width="74" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
@@ -153,26 +171,166 @@
 					<textFieldExpression><![CDATA[$V{valor_neto_sum_all}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="92dffae4-ede7-487c-9851-73e3607c479f" x="16" y="31" width="166" height="20"/>
+					<reportElement uuid="92dffae4-ede7-487c-9851-73e3607c479f" x="0" y="161" width="166" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
-					<text><![CDATA[DESC CANCELED TICKETS]]></text>
+					<text><![CDATA[TICKETS ANULADOS]]></text>
 				</staticText>
 				<textField pattern="###0" isBlankWhenNull="false">
-					<reportElement uuid="81bc35f6-7cb9-4898-8fd9-5cce48ba9095" x="720" y="31" width="82" height="20"/>
+					<reportElement uuid="81bc35f6-7cb9-4898-8fd9-5cce48ba9095" x="720" y="161" width="82" height="20"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{anulados_sum}]]></textFieldExpression>
 				</textField>
 				<textField pattern="###0">
-					<reportElement uuid="ca265a23-df3d-46f3-9b72-48f9e2d61d0a" x="720" y="51" width="82" height="20"/>
+					<reportElement uuid="ca265a23-df3d-46f3-9b72-48f9e2d61d0a" x="720" y="191" width="82" height="20"/>
 					<textElement textAlignment="Right">
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{a_pagar_sum}-$V{anulados_sum}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$V{a_pagar_sum}-$V{anulados_sum}-$V{reembolso_directo_sum}-$V{reembolso_indirecto_sum}+$V{spcr_sum}+$V{spdr_sum}+$V{adm_sum}+$V{acm_sum}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement uuid="8c0c08bf-b218-4b78-9d5d-ce53a9549bbb" x="0" y="41" width="154" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ACM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="198b01ff-edcf-4263-80d8-ab6e30e6ff77" x="0" y="61" width="154" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ADM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="f3a3916b-11d7-490f-85b9-5a57a6a2a208" x="0" y="81" width="154" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REMBOLSO DIRECTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="e308e1de-adc3-4534-a7b2-79232bfa9602" x="0" y="101" width="154" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[REEMBOLSO INDIRECTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="ca82a0fc-371c-4f5d-81a9-6a7f7c6a9cbc" x="0" y="121" width="100" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SPDR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="023e3cf8-f306-43e6-bf3b-61cd72c2ba78" x="0" y="141" width="100" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SPCR]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="984ce638-33cd-4391-9829-8b413fedb5bf" x="720" y="41" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{acm_sum}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="af2b3430-d240-4b5d-81d8-ab08eceb620a" x="720" y="61" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{adm_sum}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="28e52033-d9b3-412d-a4b5-c64bed24e87f" x="720" y="81" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{reembolso_directo_sum}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="29a9867d-c33f-4dc4-a928-9c46516d6002" x="720" y="101" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{reembolso_indirecto_sum}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="b1978dad-e00e-415d-a426-cc9dd9583c33" x="720" y="121" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{spdr_sum}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="10bb652e-b4a3-411a-9340-f59755f7a581" x="720" y="141" width="78" height="20"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{spcr_sum}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="a08d7628-dba4-4b13-ac8d-e82cd07929aa" x="0" y="191" width="100" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="81" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="101" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="121" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="61" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="41" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[+]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="161" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2dd2ac92-f91d-42b8-b473-51b8aa6b4d5b" x="706" y="141" width="14" height="20"/>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[+]]></text>
+				</staticText>
 			</band>
 		</groupFooter>
 	</group>
@@ -227,28 +385,28 @@
 					<textFieldExpression><![CDATA[$V{a_pagar_sum}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="1f22d172-9282-45c9-8b71-03bc56490ca9" x="16" y="51" width="54" height="20"/>
+					<reportElement uuid="1f22d172-9282-45c9-8b71-03bc56490ca9" x="0" y="51" width="66" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[T:CASH :]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="6afadd7f-2f8f-41c9-854e-30dbac8c3dd2" x="70" y="51" width="100" height="20"/>
+					<reportElement uuid="6afadd7f-2f8f-41c9-854e-30dbac8c3dd2" x="66" y="51" width="100" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement uuid="b82fa3a8-09fa-4a74-8c58-ab253bd3ed1e" x="16" y="31" width="66" height="20"/>
+					<reportElement uuid="b82fa3a8-09fa-4a74-8c58-ab253bd3ed1e" x="0" y="31" width="66" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[MONEDA]]></text>
 				</staticText>
 				<textField>
-					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="82" y="31" width="74" height="20"/>
+					<reportElement uuid="8838c88c-dee2-4f35-8249-123a909191c4" x="66" y="31" width="74" height="20"/>
 					<textElement>
 						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
