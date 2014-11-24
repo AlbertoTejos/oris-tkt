@@ -146,6 +146,8 @@ public class BuscarRegistro extends javax.swing.JPanel {
         txt_nfile = new javax.swing.JTextField();
         btnExcel = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        lblNumeroTicket = new javax.swing.JLabel();
+        txtNumeroTicket = new javax.swing.JTextField();
 
         btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search-icon.png"))); // NOI18N
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -226,6 +228,9 @@ public class BuscarRegistro extends javax.swing.JPanel {
             }
         });
 
+        lblNumeroTicket.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblNumeroTicket.setText("N° ticket");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -257,10 +262,15 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(list_lineaerea, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_nfile, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 202, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txt_nfile, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblNumeroTicket)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNumeroTicket))
+                            .addComponent(list_lineaerea, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
                         .addComponent(btn_buscar))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -282,7 +292,9 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel4)
-                                .addComponent(txt_nfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_nfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblNumeroTicket)
+                                .addComponent(txtNumeroTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txt_fechahasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(btn_buscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -347,7 +359,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
             @Override
             public void run() {
                 try {
-                    tableTicketModel.getTickets(desde_, hasta_, comboLineasModel.getCodigoLinea(list_lineaerea.getSelectedIndex()), txt_nfile.getText());
+                    tableTicketModel.getTickets(desde_, hasta_, comboLineasModel.getCodigoLinea(list_lineaerea.getSelectedIndex()), txt_nfile.getText(), txtNumeroTicket.getText());
                     actualizarTabla();
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Ha ocurrido un error , intente nuevamente.");
@@ -382,7 +394,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         final int row = this.table_ticket.getSelectedRow();
-        if (row > 0) {
+        if (row >= 0) {
             final Ticket tic = this.tableTicketModel.getTicket(row);
             int i = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el ticket: " +tic.getTicket() + "?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (i == 0) {
@@ -489,13 +501,13 @@ public class BuscarRegistro extends javax.swing.JPanel {
                         
                         String directorio = System.getProperty("user.dir");
                         
-                        System.out.println("Cargando archivo desde: " + directorio+"\\cargador-reporte\\AnalisisVentas.jasper");
+                        System.out.println("Cargando archivo desde: " + directorio+"\\cargador-reportes\\AnalisisVentas.jasper");
                         JasperReport jr = null;
                         try {
-                            jr = (JasperReport) JRLoader.loadObjectFromFile(directorio+"\\cargador-reporte\\AnalisisVentas.jasper");
+                            jr = (JasperReport) JRLoader.loadObjectFromFile(directorio+"\\cargador-reportes\\AnalisisVentas.jasper");
                         } catch (JRException jrex) {
                             System.out.println("Falla al cargar el reporte: "+jrex.getMessage());
-                            JOptionPane.showMessageDialog(null, "Falla al cargar el reporte", "Error de carga", JOptionPane.ERROR_MESSAGE, null);
+                            JOptionPane.showMessageDialog(null, "Falla al cargar el reporte, archivo en cargador-reporte no encontrado", "Error de carga", JOptionPane.ERROR_MESSAGE, null);
                         }
                         
                         //Parametros
@@ -545,9 +557,11 @@ public class BuscarRegistro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblNumeroTicket;
     private javax.swing.JComboBox list_lineaerea;
     private javax.swing.JProgressBar progress_bar;
     private javax.swing.JTable table_ticket;
+    private javax.swing.JTextField txtNumeroTicket;
     private com.toedter.calendar.JDateChooser txt_fechadesde;
     private com.toedter.calendar.JDateChooser txt_fechahasta;
     private javax.swing.JTextField txt_nfile;

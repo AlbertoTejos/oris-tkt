@@ -47,7 +47,7 @@ public class DetalleRegistro extends javax.swing.JDialog {
         if(ticket!=null) {//el ticket no es nuevo
             isNuevo = false;
             
-            
+            ticket.setGds("A");
             tipos.setSelectedItem(ticket.getTipo());
             estados.setSelectedItem(ticket.getEstado());  
             monedas.setSelectedItem(ticket.getMoneda());
@@ -496,11 +496,10 @@ public class DetalleRegistro extends javax.swing.JDialog {
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         Ticket tic = new Ticket(this.txt_ticket.getText());
         java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/yyyy");
-        //String desde = sdf.format(txt_fechadesde.getDate());
         if (txt_ticket.getText().trim().equals("") || 
             date_fecha_emi.getDate() == null || 
             this.txt_codigo_la.getText().trim().equals("") ) {            
-            JOptionPane.showMessageDialog(this, "N°Ticket, Fecha Emision y Linea aerea son obligatorios.");
+            JOptionPane.showMessageDialog(this, "N° ticket, fecha emision y coódigo de linea aérea son obligatorios");
             return;
         }
         

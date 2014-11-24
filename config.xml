@@ -4,5 +4,5 @@
 	<basededatos>oris_tc</basededatos>
 	<puerto>1433</puerto>
 	<usuario>sa</usuario>
-	<contrasena>administrador</contrasena>
+	<contrasena>123</contrasena>
 </config>

@@ -62,9 +62,9 @@ public class TableModelTicket extends DefaultTableModel {
         }
     }
 
-    public void getTickets(String fechaDesde, String fechaHasta, String lineaAerea, String nfile) throws SQLException {
+    public void getTickets(String fechaDesde, String fechaHasta, String lineaAerea, String nfile, String numeroTicket) throws SQLException {
 
-        tickets = TicketDAO.getInstance().getTickets(fechaDesde, fechaHasta, lineaAerea, nfile);
+        tickets = TicketDAO.getInstance().getTickets(fechaDesde, fechaHasta, lineaAerea, nfile, numeroTicket);
         if (tickets.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No se han encotrado registros.");
         }

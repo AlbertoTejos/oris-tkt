@@ -16,14 +16,15 @@ public class ComboModelTipo extends DefaultComboBoxModel {
     public void actualizarLista(){
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                    addElement("EMD");
+                    addElement("EMD"); //suman
                     addElement("TKT");
                     addElement("RFD");
-                    addElement("MPD");
-                    addElement("ADM");
-                    addElement("ACM");
-                    addElement("SPDR");
-                    addElement("SPCR");
+                    addElement("ADM"); //suman
+                    addElement("ACM"); //suman
+                    addElement("SPDR"); //suman
+                    addElement("SPCR"); //suman
+                    addElement("RD"); // reembolso directo //restan
+                    addElement("RI"); // reembolso indirecto //restan
             }
         }); 
     }
