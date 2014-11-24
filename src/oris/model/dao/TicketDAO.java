@@ -36,6 +36,7 @@ public class TicketDAO extends Conexion{
         Statement stm = getConnection().createStatement();
         String campos = "id,pnr,num_file,ticket,old_ticket,cod_emd,convert(varchar, fecha_emision, 103) as fecha_emisionb,convert(varchar, fecha_anula, 103) as fecha_anula ,convert(varchar, fecha_remision, 103) as fecha_remision ,posicion_pasajero,nombre_pasajero,tipo_pasajero,cod_linea_aerea,ruta,moneda,valor_neto,valor_tasas,valor_final,comision,forma_pago,tipo,estado,oris,gds";
         String sql = "SELECT "+campos+" FROM TICKET WHERE ticket='"+tic_in.getTicket()+"' "; 
+        System.out.println(sql);
 
         ArrayList<Ticket> tickets = new ArrayList();
         ResultSet rs = stm.executeQuery(sql);
@@ -97,8 +98,8 @@ public class TicketDAO extends Conexion{
                 + "forma_pago='"+ tic.getfPago()+"',"
                 + "tipo='"+ tic.getTipo()+"',"
                 + "estado='"+ tic.getEstado()+"',"
-                + "oris = '0'" //cada ves que se modifica un ticket el campo oris vuelve a 0
-                + "gds='"+ tic.getGds()+"',"
+                + "oris = '0"+"'," //cada ves que se modifica un ticket el campo oris vuelve a 0
+                + "gds='"+ tic.getGds()+"'"
                 +" WHERE ticket='"+tic.getTicket()+"'");    
     }
     
@@ -132,9 +133,10 @@ public class TicketDAO extends Conexion{
                 + tic.getComision()+"','"
                 + tic.getfPago()+"','"
                 + tic.getTipo()+"','"
-                + tic.getEstado()+"',"
-                + "'0'"
-                + tic.getGds()+"','"
+                + tic.getEstado()+"','"
+                + "0" +"','"
+                + tic.getGds()
+                + "'"
                 +")");    
     
         return true;
@@ -190,7 +192,6 @@ public class TicketDAO extends Conexion{
             }else{
                 tic.setOris(false);
             }
-            tic.setGds(rs.getString("gds"));
             tic.setSegmentos(SegmentoDAO.getInstance().getSegmentoPorId(tic.getTicket()));
             tickets.add(tic);   
         }

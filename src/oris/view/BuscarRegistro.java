@@ -394,7 +394,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         final int row = this.table_ticket.getSelectedRow();
-        if (row > 0) {
+        if (row >= 0) {
             final Ticket tic = this.tableTicketModel.getTicket(row);
             int i = JOptionPane.showConfirmDialog(this, "¿Desea eliminar el ticket: " +tic.getTicket() + "?", "Eliminar registro", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (i == 0) {

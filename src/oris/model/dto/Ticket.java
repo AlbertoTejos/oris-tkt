@@ -250,7 +250,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" + "pnr=" + pnr + ", numFile=" + numFile + ", ticket=" + ticket + ", oldTicket=" + oldTicket + ", codEmd=" + codEmd + ", fechaEmision=" + fechaEmision + ", fechaAnulacion=" + fechaAnulacion + ", fechaRemision=" + fechaRemision + ", posicion=" + posicion + ", nombrePasajero=" + nombrePasajero + ", tipoPasajero=" + tipoPasajero + ", cLineaAerea=" + cLineaAerea + ", ruta=" + ruta + ", moneda=" + moneda + ", valorNeto=" + valorNeto + ", valorTasas=" + valorTasas + ", valorFinal=" + valorFinal + ", comision=" + comision + ", fPago=" + fPago + ", tipo=" + tipo + ", estado=" + estado + ", segmentos=" + segmentos + '}';
+        return "Ticket{" + "pnr=" + pnr + ", numFile=" + numFile + ", ticket=" + ticket + ", oldTicket=" + oldTicket + ", codEmd=" + codEmd + ", fechaEmision=" + fechaEmision + ", fechaAnulacion=" + fechaAnulacion + ", fechaRemision=" + fechaRemision + ", posicion=" + posicion + ", nombrePasajero=" + nombrePasajero + ", tipoPasajero=" + tipoPasajero + ", cLineaAerea=" + cLineaAerea + ", ruta=" + ruta + ", moneda=" + moneda + ", valorNeto=" + valorNeto + ", valorTasas=" + valorTasas + ", valorFinal=" + valorFinal + ", comision=" + comision + ", fPago=" + fPago + ", tipo=" + tipo + ", estado=" + estado + ", segmentos=" + segmentos + ", gds=" + gds+'}';
     }
 
     
@@ -265,6 +265,7 @@ public class Ticket {
         this.cLineaAerea="";//T-K045-5251879214
         this.oldTicket="";
         this.codEmd="";
+        this.gds = "";
     }
 
     public int getPosicion() {
