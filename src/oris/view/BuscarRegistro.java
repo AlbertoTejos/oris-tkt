@@ -35,7 +35,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     public BuscarRegistro() {
         initComponents();
-        this.btnExcel.setEnabled(false);
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {
@@ -144,7 +143,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
         btn_eliminar = new javax.swing.JButton();
         progress_bar = new javax.swing.JProgressBar();
         txt_nfile = new javax.swing.JTextField();
-        btnExcel = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         lblNumeroTicket = new javax.swing.JLabel();
         txtNumeroTicket = new javax.swing.JTextField();
@@ -214,13 +212,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
             }
         });
 
-        btnExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/excel-icon.png"))); // NOI18N
-        btnExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcelActionPerformed(evt);
-            }
-        });
-
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/reporte_final.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -242,13 +233,11 @@ public class BuscarRegistro extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(btn_eliminar)
                         .addGap(18, 18, 18)
                         .addComponent(btn_nuevo)
                         .addGap(18, 18, 18)
-                        .addComponent(btnExcel))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -307,8 +296,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_nuevo)
-                        .addComponent(btn_eliminar)
-                        .addComponent(btnExcel)))
+                        .addComponent(btn_eliminar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -421,60 +409,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
-    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-
-//        final int totalFilas = this.table_ticket.getRowCount();
-//
-//        if (totalFilas > 0) {
-//
-//            //final String rutaExcel = this.tableTicketModel.getRuta();
-//            final String rutaExcel = dir.getRutaReportes();
-//
-//            final ArrayList<Ticket> tickets = this.tableTicketModel.getArrayTicket(totalFilas);
-//            final JTable table = this.table_ticket;
-//            int i = JOptionPane.showConfirmDialog(this, "¿Desea exportar a Excel?'", "Excel", JOptionPane.YES_NO_OPTION);
-//            if (i == 0) {
-//                this.progress_bar.setVisible(true);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//
-//                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-//
-//                            String desde = "01/01/1990";
-//                            try {
-//                                desde = sdf.format(txt_fechadesde.getDate());
-//                                desde = desde.replace("/", "-");
-//                            } catch (Exception e) {
-//                                desde = "01/01/1990";
-//                            }
-//
-//                            String hasta = "01/01/2020";
-//                            try {
-//                                hasta = sdf.format(txt_fechahasta.getDate());
-//                                hasta = hasta.replace("/", "-");
-//                            } catch (Exception e) {
-//                                hasta = "01/01/2020";
-//                            }
-//
-//                            tableTicketModel.exportarTicket(table, tickets, rutaExcel, desde, hasta);
-//
-//                        } catch (IOException ex) {
-//                            Logger.getLogger(BuscarRegistro.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                        SwingUtilities.invokeLater(new Runnable() {
-//                            public void run() {
-//                                progress_bar.setVisible(false);
-//                            }
-//                        });
-//                    }
-//                }).start();
-//
-//            }
-//        }
-    }//GEN-LAST:event_btnExcelActionPerformed
-
     private void list_lineaereaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_lineaereaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_list_lineaereaActionPerformed
@@ -546,7 +480,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcel;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
