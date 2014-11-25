@@ -133,6 +133,7 @@ public class TableModelTicket extends DefaultTableModel {
                }
                
                ejecutarExcel(file);
+               System.out.println("Abriendo el archivo: "+file);
            }
 
         } catch (Exception ex) {
@@ -144,9 +145,16 @@ public class TableModelTicket extends DefaultTableModel {
     
     public void ejecutarExcel(File archivo) throws IOException{
         System.out.println("Abriendo excel...");
-        if(archivo.canExecute()){
-           Desktop.getDesktop().open(archivo);
+        
+        try {
+            if(archivo.canExecute()){
+            Desktop.getDesktop().open(archivo);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
+
     }
  
 }

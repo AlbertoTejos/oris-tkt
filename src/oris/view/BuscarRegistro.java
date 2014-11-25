@@ -25,17 +25,20 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import oris.directorio.Directorio;
 import oris.model.db.Conexion;
 import oris.model.dto.Ticket;
+import oris.statics;
 
 public class BuscarRegistro extends javax.swing.JPanel {
 
     TableModelTicket tableTicketModel;
     ComboModelLineaAerea comboLineasModel;
+    Directorio dir = null;
 
     public BuscarRegistro() {
         initComponents();
-        this.btnExcel.setEnabled(false);
+        dir = Directorio.getInstance();
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {
@@ -66,6 +69,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
         this.progress_bar.setVisible(false);
         this.txt_fechadesde.setDate(fecha);
         this.txt_fechahasta.setDate(fecha);
+        this.txtExaminar.setText(dir.getRuta_excel());
 
         ajutarTabla();
         table_ticket.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -148,6 +152,10 @@ public class BuscarRegistro extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         lblNumeroTicket = new javax.swing.JLabel();
         txtNumeroTicket = new javax.swing.JTextField();
+        btnExaminar = new javax.swing.JButton();
+        txtExaminar = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search-icon.png"))); // NOI18N
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
@@ -231,6 +239,29 @@ public class BuscarRegistro extends javax.swing.JPanel {
         lblNumeroTicket.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         lblNumeroTicket.setText("N° ticket");
 
+        btnExaminar.setText("Examinar...");
+        btnExaminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExaminarActionPerformed(evt);
+            }
+        });
+
+        txtExaminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtExaminarActionPerformed(evt);
+            }
+        });
+
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel5.setText("Directorio informes");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,16 +270,6 @@ public class BuscarRegistro extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_eliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_nuevo)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnExcel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -272,7 +293,27 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addComponent(list_lineaerea, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 149, Short.MAX_VALUE)
                         .addComponent(btn_buscar))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_eliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_nuevo)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnExcel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnExaminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -303,13 +344,21 @@ public class BuscarRegistro extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(progress_bar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addComponent(jLabel5))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_nuevo)
                         .addComponent(btn_eliminar)
                         .addComponent(btnExcel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExaminar)
+                    .addComponent(txtExaminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -423,56 +472,57 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
 
-//        final int totalFilas = this.table_ticket.getRowCount();
-//
-//        if (totalFilas > 0) {
-//
-//            //final String rutaExcel = this.tableTicketModel.getRuta();
-//            final String rutaExcel = dir.getRutaReportes();
-//
-//            final ArrayList<Ticket> tickets = this.tableTicketModel.getArrayTicket(totalFilas);
-//            final JTable table = this.table_ticket;
-//            int i = JOptionPane.showConfirmDialog(this, "¿Desea exportar a Excel?'", "Excel", JOptionPane.YES_NO_OPTION);
-//            if (i == 0) {
-//                this.progress_bar.setVisible(true);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//
-//                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-//
-//                            String desde = "01/01/1990";
-//                            try {
-//                                desde = sdf.format(txt_fechadesde.getDate());
-//                                desde = desde.replace("/", "-");
-//                            } catch (Exception e) {
-//                                desde = "01/01/1990";
-//                            }
-//
-//                            String hasta = "01/01/2020";
-//                            try {
-//                                hasta = sdf.format(txt_fechahasta.getDate());
-//                                hasta = hasta.replace("/", "-");
-//                            } catch (Exception e) {
-//                                hasta = "01/01/2020";
-//                            }
-//
-//                            tableTicketModel.exportarTicket(table, tickets, rutaExcel, desde, hasta);
-//
-//                        } catch (IOException ex) {
-//                            Logger.getLogger(BuscarRegistro.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                        SwingUtilities.invokeLater(new Runnable() {
-//                            public void run() {
-//                                progress_bar.setVisible(false);
-//                            }
-//                        });
-//                    }
-//                }).start();
-//
-//            }
-//        }
+        final int totalFilas = this.table_ticket.getRowCount();
+
+        if (totalFilas > 0) {
+
+            final String rutaExcel = dir.getRuta_excel();
+
+            final ArrayList<Ticket> tickets = this.tableTicketModel.getArrayTicket(totalFilas);
+            final JTable table = this.table_ticket;
+            int i = JOptionPane.showConfirmDialog(this, "¿Desea exportar a Excel?", "Informe", JOptionPane.YES_NO_OPTION);
+            if (i == 0) {
+                this.progress_bar.setVisible(true);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+
+                            String desde = "01/01/1990";
+                            try {
+                                desde = sdf.format(txt_fechadesde.getDate());
+                                desde = desde.replace("/", "-");
+                            } catch (Exception e) {
+                                desde = "01/01/1990";
+                            }
+
+                            String hasta = "01/01/2020";
+                            try {
+                                hasta = sdf.format(txt_fechahasta.getDate());
+                                hasta = hasta.replace("/", "-");
+                            } catch (Exception e) {
+                                hasta = "01/01/2020";
+                            }
+
+                            tableTicketModel.exportarTicket(table, tickets, rutaExcel, desde, hasta);
+
+                        } catch (IOException ex) {
+                            Logger.getLogger(BuscarRegistro.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        SwingUtilities.invokeLater(new Runnable() {
+                            public void run() {
+                                progress_bar.setVisible(false);
+                            }
+                        });
+                    }
+                }).start();
+
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Primero debe realizar una búsqueda");
+        }
     }//GEN-LAST:event_btnExcelActionPerformed
 
     private void list_lineaereaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_list_lineaereaActionPerformed
@@ -545,8 +595,29 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void txtExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtExaminarActionPerformed
+        dir.getRuta_excel();
+    }//GEN-LAST:event_txtExaminarActionPerformed
+
+    private void btnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarActionPerformed
+       this.txtExaminar.setText(statics.definirDirectorio(this));
+    }//GEN-LAST:event_btnExaminarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        if (this.txtExaminar.getText().equals("")) {
+            	JOptionPane.showMessageDialog(null, "Debe ingresar todos los campos.");
+            	return;
+        	}
+
+        	dir.setRuta_excel(this.txtExaminar.getText());
+	
+        	dir.guardarCambios();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExaminar;
     private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btn_buscar;
     private javax.swing.JButton btn_eliminar;
     private javax.swing.JButton btn_nuevo;
@@ -555,12 +626,14 @@ public class BuscarRegistro extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblNumeroTicket;
     private javax.swing.JComboBox list_lineaerea;
     private javax.swing.JProgressBar progress_bar;
     private javax.swing.JTable table_ticket;
+    private javax.swing.JTextField txtExaminar;
     private javax.swing.JTextField txtNumeroTicket;
     private com.toedter.calendar.JDateChooser txt_fechadesde;
     private com.toedter.calendar.JDateChooser txt_fechahasta;
