@@ -326,6 +326,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_num_file">
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_num_fileFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_num_fileFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -400,6 +404,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_codigo_la">
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_codigo_laFocusGained"/>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_codigo_laFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
@@ -561,6 +569,9 @@
           <Format format="#,###.00" subtype="-1" type="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txt_valor_finalFocusGained"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txt_pnr">
       <Properties>

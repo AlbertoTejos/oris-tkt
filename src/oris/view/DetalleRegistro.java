@@ -1,9 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package oris.view;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import oris.view.models.TableModelSegmentos;
 import oris.view.models.ComboModelPosicion;
 import oris.view.models.ComboModelMoneda;
@@ -11,13 +9,17 @@ import oris.view.models.ComboModelEstado;
 import oris.view.models.ComboModelTipo;
 import oris.view.models.ComboModelTipoPax;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import oris.model.dao.TicketDAO;
 import oris.model.dto.Ticket;
+
 
 /**
  *
@@ -34,9 +36,9 @@ public class DetalleRegistro extends javax.swing.JDialog {
     private ComboModelTipoPax tipo_paxs;
     private ComboModelPosicion posiciones;
     private boolean isNuevo;
-    private boolean isModificado=false;
-    
-    public DetalleRegistro(Ticket ticket,java.awt.Frame parent, boolean modal) {
+    private boolean isModificado = false;
+
+    public DetalleRegistro(Ticket ticket, java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         tipos = new ComboModelTipo();
@@ -44,22 +46,22 @@ public class DetalleRegistro extends javax.swing.JDialog {
         estados = new ComboModelEstado();
         tipo_paxs = new ComboModelTipoPax();
         posiciones = new ComboModelPosicion();
-        if(ticket!=null) {//el ticket no es nuevo
+        if (ticket != null) {//el ticket no es nuevo
             isNuevo = false;
-            
+
             ticket.setGds("A");
             tipos.setSelectedItem(ticket.getTipo());
-            estados.setSelectedItem(ticket.getEstado());  
+            estados.setSelectedItem(ticket.getEstado());
             monedas.setSelectedItem(ticket.getMoneda());
             tipo_paxs.setSelectedItem(ticket.getTipoPasajero());
             posiciones.setSelectedItem(ticket.getPosicion());
-   
+
             this.txt_ticket.setText(ticket.getTicket());
             this.txt_num_file.setText(ticket.getNumFile());
             this.txt_reemitido.setText(ticket.getOldTicket());
             this.txt_pnr.setText(ticket.getPnr());
             this.txt_emd.setText(ticket.getCodEmd());
-            java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/yyyy");
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
             try {
                 this.date_fecha_emi.setDate(sdf.parse(ticket.getFechaEmision()));
                 this.date_fecha_anu.setDate(sdf.parse(ticket.getFechaAnulacion()));
@@ -67,43 +69,41 @@ public class DetalleRegistro extends javax.swing.JDialog {
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-            
-            
+
             this.txt_nombre_pax.setText(ticket.getNombrePasajero());
             this.txt_fpago.setText(ticket.getfPago());
-            
+
             //DecimalFormat df = new DecimalFormat("#,##");
-            this.txt_comision.setValue(ticket.getComision());         
+            this.txt_comision.setValue(ticket.getComision());
             this.txt_valor_neto.setValue(ticket.getValorNeto());
             this.txt_valor_tax.setValue(ticket.getValorTasas());
             this.txt_valor_final.setValue(ticket.getValorFinal());
-            
-            
+
             this.txt_codigo_la.setText(ticket.getcLineaAerea());
-            this.txt_ruta.setText(ticket.getRuta());   
+            this.txt_ruta.setText(ticket.getRuta());
             TableModelSegmentos segmentos_model = new TableModelSegmentos(ticket);
             this.table_segmentos.setModel(segmentos_model);
             this.txt_ticket.setEditable(false);
-        }else{//elt ticket es nuevo
+        } else {//elt ticket es nuevo
             isNuevo = true;
             tipos = new ComboModelTipo();
             this.cmb_tipo.setModel(tipos);
-            
+
             java.util.Date fecha = new Date();
-            this.date_fecha_emi.setDate(fecha);       
+            this.date_fecha_emi.setDate(fecha);
             this.txt_comision.setValue(new Double("0.00"));
             this.txt_valor_final.setValue(new Double("0.00"));
             this.txt_valor_neto.setValue(new Double("0.00"));
             this.txt_valor_tax.setValue(new Double("0.00"));
         }
-        
+
         this.table_segmentos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.cmb_estado.setModel(estados);
         this.cmb_moneda.setModel(monedas);
         this.cmb_tipo.setModel(tipos);
         this.cmb_tipopax.setModel(tipo_paxs);
         this.cmb_posi.setModel(posiciones);
-        
+
         this.setTitle("Oris-TKT");
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -183,6 +183,15 @@ public class DetalleRegistro extends javax.swing.JDialog {
 
         jLabel3.setText("PNR");
 
+        txt_num_file.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_num_fileFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_num_fileFocusLost(evt);
+            }
+        });
+
         jLabel4.setText("N° File");
 
         jLabel5.setText("Ticket Reemitido");
@@ -210,6 +219,15 @@ public class DetalleRegistro extends javax.swing.JDialog {
         jLabel13.setText("Estado");
 
         jLabel15.setText("Codigo Linea");
+
+        txt_codigo_la.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_codigo_laFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_codigo_laFocusLost(evt);
+            }
+        });
 
         jLabel16.setText("Ruta");
 
@@ -268,6 +286,11 @@ public class DetalleRegistro extends javax.swing.JDialog {
         txt_valor_tax.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
 
         txt_valor_final.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,###.00"))));
+        txt_valor_final.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txt_valor_finalFocusGained(evt);
+            }
+        });
 
         txt_pnr.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
@@ -495,64 +518,75 @@ public class DetalleRegistro extends javax.swing.JDialog {
 
     private void btn_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_guardarActionPerformed
         Ticket tic = new Ticket(this.txt_ticket.getText());
-        java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/yyyy");
-        if (txt_ticket.getText().trim().equals("") || 
-            date_fecha_emi.getDate() == null || 
-            this.txt_codigo_la.getText().trim().equals("") ) {            
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        if (txt_ticket.getText().trim().equals("")
+                || date_fecha_emi.getDate() == null
+                || this.txt_codigo_la.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "N° ticket, fecha emision y coódigo de linea aérea son obligatorios");
             return;
         }
-        
-        if (txt_comision.getText().equals("")    || txt_comision.getText()==null) {txt_comision.setValue(new Double("0,00"));}
-        if (txt_valor_neto.getText().equals("")  || txt_valor_neto.getText()==null) {txt_valor_neto.setValue(new Double("0,00"));}
-        if (txt_valor_tax.getText().equals("")   || txt_valor_tax.getText()==null) {txt_valor_tax.setValue(new Double("0,00"));}
-        if (txt_valor_final.getText().equals("") || txt_valor_final.getText()==null) {txt_valor_final.setValue(new Double("0,00"));}
-        
+
+        if (txt_comision.getText().equals("") || txt_comision.getText() == null) {
+            txt_comision.setValue(new Double("0,00"));
+        }
+        if (txt_valor_neto.getText().equals("") || txt_valor_neto.getText() == null) {
+            txt_valor_neto.setValue(new Double("0,00"));
+        }
+        if (txt_valor_tax.getText().equals("") || txt_valor_tax.getText() == null) {
+            txt_valor_tax.setValue(new Double("0,00"));
+        }
+        if (txt_valor_final.getText().equals("") || txt_valor_final.getText() == null) {
+            txt_valor_final.setValue(new Double("0,00"));
+        }
+
         tic.setPnr(this.txt_pnr.getText());
         tic.setCodEmd(this.txt_emd.getText());
         tic.setNumFile(this.txt_num_file.getText());
         tic.setOldTicket(this.txt_reemitido.getText());
-        tic.setTipo((String)this.cmb_tipo.getSelectedItem());
+        tic.setTipo((String) this.cmb_tipo.getSelectedItem());
         tic.setFechaEmision(sdf.format(this.date_fecha_emi.getDate()));
-        if (date_fecha_ree.getDate()!=null) { tic.setFechaRemision(sdf.format(this.date_fecha_ree.getDate()));  }    
-        if (date_fecha_anu.getDate()!=null) { tic.setFechaAnulacion(sdf.format(this.date_fecha_anu.getDate())); }
+        if (date_fecha_ree.getDate() != null) {
+            tic.setFechaRemision(sdf.format(this.date_fecha_ree.getDate()));
+        }
+        if (date_fecha_anu.getDate() != null) {
+            tic.setFechaAnulacion(sdf.format(this.date_fecha_anu.getDate()));
+        }
         tic.setEstado((String) this.cmb_estado.getSelectedItem());
-        tic.setPosicion((Integer)this.cmb_posi.getSelectedItem());
+        tic.setPosicion((Integer) this.cmb_posi.getSelectedItem());
         tic.setTipoPasajero((String) this.cmb_tipopax.getSelectedItem());
         tic.setNombrePasajero(this.txt_nombre_pax.getText());
-        tic.setMoneda((String)this.cmb_moneda.getSelectedItem());
-        tic.setComision(((Number)this.txt_comision.getValue()).doubleValue());
+        tic.setMoneda((String) this.cmb_moneda.getSelectedItem());
+        tic.setComision(((Number) this.txt_comision.getValue()).doubleValue());
         tic.setfPago(this.txt_fpago.getText());
-        tic.setValorNeto(((Number)this.txt_valor_neto.getValue()).doubleValue());
-        tic.setValorTasas(((Number)this.txt_valor_tax.getValue()).doubleValue());
-        tic.setValorFinal(((Number)this.txt_valor_final.getValue()).doubleValue());
+        tic.setValorNeto(((Number) this.txt_valor_neto.getValue()).doubleValue());
+        tic.setValorTasas(((Number) this.txt_valor_tax.getValue()).doubleValue());
+        tic.setValorFinal(((Number) this.txt_valor_final.getValue()).doubleValue());
         tic.setRuta(this.txt_ruta.getText());
         tic.setcLineaAerea(this.txt_codigo_la.getText());
-        
-        
+
         System.out.println(tic);
-        try{
-            if (TicketDAO.getInstance().existeNumFile(tic)){
-                if(isNuevo){
+        try {
+            if (TicketDAO.getInstance().existeNumFile(tic)) {
+                if (isNuevo) {
                     if (TicketDAO.getInstance().insertTicket(tic)) {
-                        
-                    }else{
+
+                    } else {
                         JOptionPane.showMessageDialog(this, "El N° Ticket ingresado ya existe!.");
                         return;
-                    }                
-                }else{
-                        TicketDAO.getInstance().updateTicket(tic);                   
+                    }
+                } else {
+                    TicketDAO.getInstance().updateTicket(tic);
                 }
-                this.isModificado=true;
+                this.isModificado = true;
                 JOptionPane.showMessageDialog(this, "Los cambios se han guardado con exito.");
                 this.dispose();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "El N°File ingresado no existe.");
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
             JOptionPane.showMessageDialog(this, "Ha ocurrido un error ,verifique los datos.");
-        }      
+        }
     }//GEN-LAST:event_btn_guardarActionPerformed
 
     private void cmb_posiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_posiActionPerformed
@@ -562,14 +596,107 @@ public class DetalleRegistro extends javax.swing.JDialog {
     private void cmb_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_tipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cmb_tipoActionPerformed
-    
-    public boolean isModificado(){
+
+    private void txt_num_fileFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_num_fileFocusGained
+        
+        System.out.println("focuseado\n");
+        
+        txt_num_file.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println(txt_num_file.getText()+"\n");
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                System.out.println(txt_num_file.getText()+"\n");
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                System.out.println(txt_num_file.getText()+"\n");
+            }
+        }); 
+    }//GEN-LAST:event_txt_num_fileFocusGained
+
+    private void txt_num_fileFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_num_fileFocusLost
+        
+        System.out.println("a dejado de ser focuseado\n");
+        
+        if (txt_num_file.getText().length() > 0) {
+            try {
+                boolean existe;
+                existe = TicketDAO.getInstance().existeNumFile(txt_num_file.getText());
+                
+                
+                if (!existe) {
+                    JOptionPane.showMessageDialog(null, "El num file no existe", "No encontrado", JOptionPane.WARNING_MESSAGE);
+                    txt_num_file.setText("");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(DetalleRegistro.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    }//GEN-LAST:event_txt_num_fileFocusLost
+
+    private void txt_valor_finalFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_valor_finalFocusGained
+   
+    }//GEN-LAST:event_txt_valor_finalFocusGained
+
+    private void txt_codigo_laFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_codigo_laFocusGained
+        
+        System.out.println("focuseado");
+        
+        
+        txt_codigo_la.getDocument().addDocumentListener(new DocumentListener() {
+
+            
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                System.out.println(txt_codigo_la.getText());
+
+                
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                System.out.println(txt_codigo_la.getText());
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                System.out.println(txt_codigo_la.getText());
+
+            }
+
+
+        
+            
+    });
+        
+        
+
+    }//GEN-LAST:event_txt_codigo_laFocusGained
+
+    private void txt_codigo_laFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_codigo_laFocusLost
+        
+        if (txt_codigo_la.getText().length() > 3) {
+            JOptionPane.showMessageDialog(null, "El codigo de linea aerea no es válido", "Mensaje", JOptionPane.WARNING_MESSAGE);
+            txt_codigo_la.setText("");
+        }
+    }//GEN-LAST:event_txt_codigo_laFocusLost
+
+    public boolean isModificado() {
         return isModificado;
     }
-    
+
     /**
      * @param args the command line arguments
-     * 
+     *
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
