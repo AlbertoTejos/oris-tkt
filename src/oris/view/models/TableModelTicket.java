@@ -28,6 +28,7 @@ public class TableModelTicket extends DefaultTableModel {
 
     //POR CADA TICKET EN EL ARRAYLIST
     public void actualizaTabla() {
+
         System.out.println("insertando :" + getRowCount());
         this.setRowCount(0);
         for (Ticket tic : tickets) {

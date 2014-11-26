@@ -229,6 +229,28 @@ public class TicketDAO extends Conexion{
         }
     }
     
+     public boolean existeNumFile(String num_file) throws SQLException{
+         
+         
+        if (num_file==null || num_file.trim().equals("")) {
+            return true;
+        }
+        Statement stm = getConnection().createStatement();
+        String sql = "SELECT num_file FROM file_ WHERE num_file='"+num_file+"'";       
+        ResultSet rs = stm.executeQuery(sql);
+        int cont = 0;
+         
+        while (rs.next()) {
+            cont++;
+        }
+        System.out.println(cont);
+        if (cont > 0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
     
     
     
