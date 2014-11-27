@@ -2,11 +2,8 @@ package oris.view;
 
 import java.awt.CardLayout;
 import java.awt.Cursor;
-import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -62,6 +59,7 @@ public class Inicio extends javax.swing.JFrame {
 
         menuOris.setText("Menú");
 
+        menuInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/home.png"))); // NOI18N
         menuInicio.setText("Inicio");
         menuInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,11 +94,11 @@ public class Inicio extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 870, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+            .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
         );
 
         pack();
@@ -111,12 +109,13 @@ public class Inicio extends javax.swing.JFrame {
             @Override
             public void run() {
                 panelPrincipal.add(new BuscarRegistro(), "menu1");
-                CardLayout paletas = (CardLayout) panelPrincipal.getLayout();
-                paletas.show(panelPrincipal, "menu1");
+                CardLayout paleta1 = (CardLayout) panelPrincipal.getLayout();
+                paleta1.show(panelPrincipal, "menu1");
                 
                 
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 SwingUtilities.invokeLater(new Runnable() {
+                    @Override
                     public void run() {
                         setCursor(Cursor.getDefaultCursor());
                     }
@@ -131,7 +130,23 @@ public class Inicio extends javax.swing.JFrame {
 
     private void menuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInicioActionPerformed
         
-        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                panelPrincipal.add(new Logo(), "menu2");
+                CardLayout paleta2 = (CardLayout) panelPrincipal.getLayout();
+                paleta2.show(panelPrincipal, "menu2");
+                
+                
+                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        setCursor(Cursor.getDefaultCursor());
+                    }
+                });
+            }
+        });
         
     }//GEN-LAST:event_menuInicioActionPerformed
 

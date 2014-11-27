@@ -40,9 +40,19 @@ public class BuscarRegistro extends javax.swing.JPanel {
     public BuscarRegistro() {
         initComponents();
         dir = Directorio.getInstance();
+        //Botón nuevo
+        this.btn_nuevo.setToolTipText("Agregar un ticket");
+        //Botón buscar
+        this.btn_buscar.setToolTipText("Iniciar búsqueda");
+        //Botón excel
         this.btnExcel.setEnabled(false);
+        this.btnExcel.setToolTipText("Exportar a Excel");
+        //Botón eliminar
         this.btn_eliminar.setEnabled(false);
+        this.btn_eliminar.setToolTipText("Eliminar ticket");
+        //Botón reporte
         this.btnReporte.setEnabled(false);
+        this.btnReporte.setToolTipText("Reporte análisis de ventas");
         tableTicketModel = new TableModelTicket();
         list_lineaerea.setEnabled(false);
         new Thread(new Runnable() {
@@ -488,6 +498,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
 
+        
         final int totalFilas = this.table_ticket.getRowCount();
 
         if (totalFilas > 0) {
