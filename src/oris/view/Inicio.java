@@ -4,21 +4,28 @@ import java.awt.CardLayout;
 import java.awt.Cursor;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import oris.directorio.Directorio;
+import oris.statics;
 
-public class Inicio extends javax.swing.JFrame {
+
+public class Inicio extends javax.swing.JFrame{
 
     private static Inicio instance = null;
 
     /**
      * Creates new form Inicio
      */
+
     private Inicio() {
+        
+        //this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setUndecorated(true);  
 
         try {
-
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             SwingUtilities.updateComponentTreeUI(this);
             this.pack();
@@ -43,9 +50,11 @@ public class Inicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuOris = new javax.swing.JMenu();
-        menuInicio = new javax.swing.JMenuItem();
         menuItemEditarRegistro = new javax.swing.JMenuItem();
         menuItemSalir = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        menuDirectorio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -58,15 +67,6 @@ public class Inicio extends javax.swing.JFrame {
         panelPrincipal.add(jLabel1, "card2");
 
         menuOris.setText("Menú");
-
-        menuInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/home.png"))); // NOI18N
-        menuInicio.setText("Inicio");
-        menuInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuInicioActionPerformed(evt);
-            }
-        });
-        menuOris.add(menuInicio);
 
         menuItemEditarRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/database.png"))); // NOI18N
         menuItemEditarRegistro.setText("Registros");
@@ -87,6 +87,23 @@ public class Inicio extends javax.swing.JFrame {
         menuOris.add(menuItemSalir);
 
         menuBar.add(menuOris);
+
+        jMenu1.setText("Opciones");
+
+        jMenu2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/excel_menuitem.png"))); // NOI18N
+        jMenu2.setText("Excel");
+
+        menuDirectorio.setText("Definir directorio...");
+        menuDirectorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuDirectorioActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuDirectorio);
+
+        jMenu1.add(jMenu2);
+
+        menuBar.add(jMenu1);
 
         setJMenuBar(menuBar);
 
@@ -111,8 +128,7 @@ public class Inicio extends javax.swing.JFrame {
                 panelPrincipal.add(new BuscarRegistro(), "menu1");
                 CardLayout paleta1 = (CardLayout) panelPrincipal.getLayout();
                 paleta1.show(panelPrincipal, "menu1");
-                
-                
+
                 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
@@ -128,27 +144,16 @@ public class Inicio extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_menuItemSalirActionPerformed
 
-    private void menuInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInicioActionPerformed
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                panelPrincipal.add(new Logo(), "menu2");
-                CardLayout paleta2 = (CardLayout) panelPrincipal.getLayout();
-                paleta2.show(panelPrincipal, "menu2");
-                
-                
-                setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        setCursor(Cursor.getDefaultCursor());
-                    }
-                });
-            }
-        });
-        
-    }//GEN-LAST:event_menuInicioActionPerformed
+    private void menuDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuDirectorioActionPerformed
+        String resultado = statics.definirDirectorio(this);
+        if(!resultado.equals("")){
+            Directorio.getInstance().setRuta_excel(resultado);
+            Directorio.getInstance().guardarCambios();
+        }else{
+            Directorio.getInstance().getRuta_excel();
+        }
+
+    }//GEN-LAST:event_menuDirectorioActionPerformed
 
     public static Inicio getInstance() {
         if (instance == null) {
@@ -156,15 +161,21 @@ public class Inicio extends javax.swing.JFrame {
         }
         return instance;
     }
-
+    
+    public JPanel getPanel(){
+        return this.panelPrincipal;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenuItem menuInicio;
+    private javax.swing.JMenuItem menuDirectorio;
     private javax.swing.JMenuItem menuItemEditarRegistro;
     private javax.swing.JMenuItem menuItemSalir;
     private javax.swing.JMenu menuOris;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
+
 }

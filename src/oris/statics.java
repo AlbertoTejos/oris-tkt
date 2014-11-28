@@ -6,7 +6,9 @@ package oris;
 
 import java.util.Calendar;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import oris.directorio.Directorio;
 
 /**
  *
@@ -22,10 +24,10 @@ public class statics {
         return annio.substring(2) + dia + mes;
     }
 
-    public static String definirDirectorio(JPanel panel) {
+    public static String definirDirectorio(JFrame frame) {
         JFileChooser file = new JFileChooser();
         file.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        int result = file.showOpenDialog(panel);
+        int result = file.showOpenDialog(frame);
 
         switch (result) {
             case JFileChooser.CANCEL_OPTION:
