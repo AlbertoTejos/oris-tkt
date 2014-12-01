@@ -57,6 +57,7 @@ public class Inicio extends javax.swing.JFrame{
         menuDirectorio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setResizable(false);
 
         panelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
@@ -64,6 +65,7 @@ public class Inicio extends javax.swing.JFrame{
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/oris/view/oris-avion.jpg"))); // NOI18N
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         panelPrincipal.add(jLabel1, "card2");
 
         menuOris.setText("Menú");

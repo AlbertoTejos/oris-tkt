@@ -184,6 +184,8 @@ public class BuscarRegistro extends javax.swing.JPanel {
         btnGuardar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
+        setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         btn_buscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/search-icon.png"))); // NOI18N
         btn_buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -393,7 +395,7 @@ public class BuscarRegistro extends javax.swing.JPanel {
                             .addComponent(btnExcel))
                         .addGap(18, 18, 18)
                         .addComponent(jButton1)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
